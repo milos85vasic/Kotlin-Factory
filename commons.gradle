@@ -1,8 +1,6 @@
 apply plugin: "kotlin"
 apply plugin: "java"
 
-ext.versionPackage = ""
-ext.packageStructure = ""
 ext.alpha = 1
 ext.versionNumber = 1
 ext.secondaryVersion = 0
@@ -46,20 +44,21 @@ if (alpha > 0) {
 }
 jar.archiveName = project.name + "_V" + version + ".jar"
 
-task generateSources {
-    final destination = new File(
-            "${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build${File.separator}generated-src${File.separator}kotlin${File.separator}${packageStructure}"
-    )
-    println("We are about to generate sources [ ${destination.absolutePath} ]")
-    if (destination.exists() || destination.mkdirs()) {
-        final classFile = new File(
-                "$destination${File.separator}Version.kt"
+ext.generateSources = {
+    versionPackage, packageStructure ->
+        final destination = new File(
+                "${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build${File.separator}generated-src${File.separator}kotlin${File.separator}${packageStructure}"
         )
-        classFile.write("package ${versionPackage} data class Version(val VERSION : String = \"$version\")")
-        println("We generated file [ ${classFile.absolutePath} ]")
-    } else {
-        println("Couldn't initialize [ ${destination.absolutePath} ]")
-    }
+        println("We are about to generate sources [ ${destination.absolutePath} ]")
+        if (destination.exists() || destination.mkdirs()) {
+            final classFile = new File(
+                    "$destination${File.separator}Version.kt"
+            )
+            classFile.write("package ${versionPackage} data class Version(val VERSION : String = \"$version\")")
+            println("We generated file [ ${classFile.absolutePath} ]")
+        } else {
+            println("Couldn't initialize [ ${destination.absolutePath} ]")
+        }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
