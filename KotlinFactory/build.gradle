@@ -1,7 +1,11 @@
-apply plugin: "application"
-
+alpha = 1
+versionNumber = 1
+secondaryVersion = 0
+tertiaryVersion = 0
 versionPackage = "net.milosvasic.factory.kotlin"
 packageStructure = "net${File.separator}milosvasic${File.separator}factory${File.separator}kotlin"
+
+apply plugin: "application"
 
 dependencies {
     compile project(':ProjectFactory')

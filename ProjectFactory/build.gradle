@@ -1,3 +1,7 @@
+alpha = 1
+versionNumber = 1
+secondaryVersion = 0
+tertiaryVersion = 0
 versionPackage = "net.milosvasic.factory"
 packageStructure = "net${File.separator}milosvasic${File.separator}factory"
 
