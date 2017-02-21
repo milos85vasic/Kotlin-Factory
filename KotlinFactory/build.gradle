@@ -1,9 +1,10 @@
+apply plugin: "application"
+
 alpha = 1
 versionNumber = 1
 secondaryVersion = 0
 tertiaryVersion = 0
 
-apply plugin: "application"
 
 dependencies {
     compile project(':ProjectFactory')
