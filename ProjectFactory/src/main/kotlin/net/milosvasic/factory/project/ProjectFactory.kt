@@ -5,7 +5,8 @@ import java.io.File
 
 abstract class ProjectFactory {
 
-    fun create(project: Project, destination: File) {
+    fun create(project: Project, home: File) {
+        val destination = File(home.absolutePath, project.name)
         if (destination.exists()) throw IllegalStateException(
                 "${Messages.PROJECT_ALREADY_EXIST}: ${destination.absolutePath}"
         )

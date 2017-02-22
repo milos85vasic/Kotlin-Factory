@@ -49,12 +49,8 @@ fun main(args: Array<String>) {
     logger.v(tag, message)
 
     val project = Project(projectName)
-
-    val home = getHome()
-    val destination = File(home.absolutePath, projectName)
-
     try {
-        factory.create(project, destination)
+        factory.create(project, getHome())
         logger.c(tag, Messages.PROJECT_CREATED)
     } catch (e: Exception) {
         logger.e(tag, "${e.message}")

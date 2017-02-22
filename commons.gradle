@@ -2,6 +2,7 @@ apply plugin: "java"
 apply plugin: "kotlin"
 
 ext.alpha = 1
+ext.beta = 0
 ext.versionNumber = 1
 ext.secondaryVersion = 0
 ext.tertiaryVersion = 0
@@ -34,12 +35,16 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
 
+sourceSets.main.kotlin.srcDirs += 'src/main/java'
 sourceSets.main.kotlin.srcDirs += 'src/main/kotlin'
+sourceSets.main.kotlin.srcDirs += 'build/generated-src/java'
 sourceSets.main.kotlin.srcDirs += 'build/generated-src/kotlin'
 
 version = String.format("%d.%d.%d", ext.versionNumber, ext.secondaryVersion, ext.tertiaryVersion)
 if (alpha > 0) {
-    version += "_Alpha_${ext.alpha}"
+    version += "_Alpha_$alpha"
+} else if (beta > 0) {
+    version += "_Beta_$beta"
 }
 jar.archiveName = project.name + "_V" + version + ".jar"
 
