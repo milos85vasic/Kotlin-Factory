@@ -4,6 +4,7 @@ import net.milosvasic.factory.kotlin.content.Flags
 import net.milosvasic.factory.kotlin.content.Labels
 import net.milosvasic.factory.kotlin.content.Messages
 import net.milosvasic.factory.project.Project
+import net.milosvasic.factory.utils.Text
 import net.milosvasic.logger.ConsoleLogger
 import java.io.File
 
@@ -14,6 +15,8 @@ fun main(args: Array<String>) {
     val logger = ConsoleLogger()
     val tag = KotlinFactory::class
     val factory = KotlinProjectFactory()
+    val name = Text.splitCamelCase(BuildConfig.NAME)
+    val version = BuildConfig.VERSION.replace("_", " ")
 
     fun getHome(): File {
         val home = System.getProperty("user.home")
@@ -24,7 +27,7 @@ fun main(args: Array<String>) {
         return root
     }
 
-    logger.c(tag, "${BuildConfig.NAME} ${BuildConfig.VERSION.replace("_", " ")} is running.")
+    logger.c(tag, "$name $version is running.")
     if (args.size < 2) {
         logger.e(tag, Messages.INVALID_ARGUMENTS)
         return
