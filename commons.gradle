@@ -56,9 +56,9 @@ ext.generateSources = {
         println("We are about to generate sources [ ${destination.absolutePath} ]")
         if (destination.exists() || destination.mkdirs()) {
             final classFile = new File(
-                    "$destination${File.separator}Version.kt"
+                    "$destination${File.separator}BuildConfig.kt"
             )
-            classFile.write("package ${versionPackage} data class Version(val VERSION : String = \"$version\")")
+            classFile.write("package ${versionPackage} object BuildConfig{ val VERSION = \"$version\" }")
             println("We generated file [ ${classFile.absolutePath} ]")
         } else {
             println("Couldn't initialize [ ${destination.absolutePath} ]")

@@ -1,6 +1,6 @@
 package net.milosvasic.factory.kotlin
 
-import net.milosvasic.factory.Version
+import net.milosvasic.factory.BuildConfig
 import net.milosvasic.factory.kotlin.content.Flags
 import net.milosvasic.factory.kotlin.content.Labels
 import net.milosvasic.factory.kotlin.content.Messages
@@ -12,7 +12,6 @@ private class KotlinFactory
 
 fun main(args: Array<String>) {
 
-    val version = Version()
     val logger = ConsoleLogger()
     val tag = KotlinFactory::class
     val factory = KotlinProjectFactory()
@@ -26,7 +25,7 @@ fun main(args: Array<String>) {
         return root
     }
 
-    logger.c(tag, "Kotlin Factory ${version.VERSION.replace("_", " ")} is running.")
+    logger.c(tag, "Kotlin Factory ${BuildConfig.VERSION.replace("_", " ")} is running.")
     if (args.size < 2) {
         logger.e(tag, Messages.INVALID_ARGUMENTS)
         return
