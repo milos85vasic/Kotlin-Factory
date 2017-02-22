@@ -1,6 +1,5 @@
 package net.milosvasic.factory.kotlin
 
-import net.milosvasic.factory.BuildConfig
 import net.milosvasic.factory.kotlin.content.Flags
 import net.milosvasic.factory.kotlin.content.Labels
 import net.milosvasic.factory.kotlin.content.Messages
@@ -25,7 +24,7 @@ fun main(args: Array<String>) {
         return root
     }
 
-    logger.c(tag, "Kotlin Factory ${BuildConfig.VERSION.replace("_", " ")} is running.")
+    logger.c(tag, "${BuildConfig.NAME} ${BuildConfig.VERSION.replace("_", " ")} is running.")
     if (args.size < 2) {
         logger.e(tag, Messages.INVALID_ARGUMENTS)
         return
@@ -35,13 +34,13 @@ fun main(args: Array<String>) {
     val moduleNames = mutableListOf<String>()
     if (args[1].startsWith(Flags.MODULES)) {
         val modules = args[1].replace(Flags.MODULES, "").split(",")
-        modules.mapTo(moduleNames) { it.trim() }
+        modules.mapTo(moduleNames, String::trim)
     } else {
         logger.e(tag, Messages.INVALID_ARGUMENTS)
         return
     }
 
-    var message = "We are about to create project [ $projectName ]\nModules:"
+    var message = "${Messages.PROJECT_CREATE} [ $projectName ]\n${Labels.MODULES}:"
     for (module in moduleNames) {
         message += "\n[ $module ]"
     }

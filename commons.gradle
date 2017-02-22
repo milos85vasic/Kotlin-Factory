@@ -58,7 +58,19 @@ ext.generateSources = {
             final classFile = new File(
                     "$destination${File.separator}BuildConfig.kt"
             )
-            classFile.write("package ${versionPackage} object BuildConfig{ val VERSION = \"$version\" }")
+            final builder = new StringBuilder("package ${versionPackage}")
+                    .append("\n")
+                    .append("\n")
+                    .append("object BuildConfig {")
+                    .append("\n")
+                    .append("\n")
+                    .append("\tval VERSION = \"$version\"")
+                    .append("\n")
+                    .append("\tval NAME = \"${project.name}\"")
+                    .append("\n")
+                    .append("\n")
+                    .append("}")
+            classFile.write(builder.toString())
             println("We generated file [ ${classFile.absolutePath} ]")
         } else {
             println("Couldn't initialize [ ${destination.absolutePath} ]")
