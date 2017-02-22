@@ -1,3 +1,6 @@
+apply plugin: "java"
+apply plugin: "kotlin"
+
 ext.alpha = 1
 ext.versionNumber = 1
 ext.secondaryVersion = 0
@@ -9,13 +12,9 @@ buildscript {
         jcenter()
         mavenCentral()
     }
-    dependencies.classpath "com.android.tools.build:gradle:2.1.0"
     dependencies.classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     dependencies.classpath "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
-
-apply plugin: "java"
-apply plugin: "kotlin"
 
 repositories {
     jcenter()
