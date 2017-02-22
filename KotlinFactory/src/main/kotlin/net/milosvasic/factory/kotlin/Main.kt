@@ -3,6 +3,7 @@ package net.milosvasic.factory.kotlin
 import net.milosvasic.factory.kotlin.content.Flags
 import net.milosvasic.factory.kotlin.content.Labels
 import net.milosvasic.factory.kotlin.content.Messages
+import net.milosvasic.factory.module.Module
 import net.milosvasic.factory.project.Project
 import net.milosvasic.factory.utils.Text
 import net.milosvasic.logger.ConsoleLogger
@@ -50,6 +51,9 @@ fun main(args: Array<String>) {
     logger.v(tag, message)
 
     val project = Project(projectName)
+    for (moduleName in moduleNames) {
+        project.modules.add(Module(moduleName))
+    }
     try {
         factory.create(project, getHome())
         logger.c(tag, Messages.PROJECT_CREATED)
