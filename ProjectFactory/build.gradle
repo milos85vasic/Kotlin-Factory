@@ -35,23 +35,28 @@ ext.uploadJars = {
     if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
         ftp.login(ftpUsername, ftpPassword)
         if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
-            ftp.changeToParentDirectory()
-            ftp.setFileType(FTP.BINARY_FILE_TYPE)
-            File dir = new File("${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build/libs")
-            File[] files = dir.listFiles()
-            for (File file : files) {
-                if (file.name.endsWith(".jar")) {
-                    FileInputStream is = new FileInputStream(file)
-                    BufferedInputStream buffIn = new BufferedInputStream(is)
-                    if (ftp.storeFile(file.name, buffIn)) {
-                        println(String.format("Uploading to dev repo [ SUCCESS ][ %s ]", file.name))
+            ftp.enterLocalPassiveMode()
+            if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
+                ftp.changeToParentDirectory()
+                ftp.setFileType(FTP.BINARY_FILE_TYPE)
+                File dir = new File("${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build/libs")
+                File[] files = dir.listFiles()
+                for (File file : files) {
+                    if (file.name.endsWith(".jar")) {
+                        FileInputStream is = new FileInputStream(file)
+                        BufferedInputStream buffIn = new BufferedInputStream(is)
+                        if (ftp.storeFile(file.name, buffIn)) {
+                            println(String.format("Uploading to dev repo [ SUCCESS ][ %s ]", file.name))
+                        } else {
+                            println(String.format("Uploading to dev repo [ FAILED ][ %s ]", file.name))
+                        }
+                        is.close()
                     } else {
-                        println(String.format("Uploading to dev repo [ FAILED ][ %s ]", file.name))
+                        println(String.format("Uploading to dev repo [ SKIPPED ][ %s ]", file.name))
                     }
-                    is.close()
-                } else {
-                    println(String.format("Uploading to dev repo [ SKIPPED ][ %s ]", file.name))
                 }
+            } else {
+                println("Couldn't enter local passive mode.")
             }
             ftp.disconnect()
         } else {
