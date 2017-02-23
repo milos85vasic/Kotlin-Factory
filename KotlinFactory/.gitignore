@@ -84,3 +84,5 @@ build/*
 
 !libs/*.jar
 !Releases/*.jar
+
+credentials.gradle

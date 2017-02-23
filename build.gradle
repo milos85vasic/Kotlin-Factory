@@ -14,3 +14,7 @@ buildscript {
 configure([project(':ProjectFactory'), project(':KotlinFactory')]) {
     apply from: "../commons.gradle"
 }
+
+configure([project(':ProjectFactory'), project(':KotlinFactory')]) {
+    apply from: "../deployment.gradle"
+}

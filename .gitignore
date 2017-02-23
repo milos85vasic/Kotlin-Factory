@@ -90,3 +90,5 @@ build/*
 
 gradle*
 Logs/*
+
+credentials.gradle
