@@ -13,3 +13,55 @@ task generateSources {
             "net${File.separator}milosvasic${File.separator}factory"
     )
 }
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies.classpath 'commons-net:commons-net:3.3'
+}
+
+import org.apache.commons.net.ftp.FTP
+import org.apache.commons.net.ftp.FTPClient
+import org.apache.commons.net.ftp.FTPReply
+
+apply from: 'credentials.gradle'
+
+ext.uploadJars = {
+    println("Uploading to dev repo [ START ]")
+    FTPClient ftp = new FTPClient()
+    ftp.connect(ftpServer)
+    if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
+        if (ftp.login(ftpUsername, ftpPassword)) {
+            ftp.setFileType(FTP.BINARY_FILE_TYPE);
+        } else {
+            println("Couldn't login to ftp server.")
+            return
+        }
+    } else {
+        println("Couldn't connect to ftp server.")
+        return
+    }
+    File dir = new File("${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build/libs")
+    File[] files = dir.listFiles()
+    for (File file : files) {
+        if (file.name.endsWith(".jar")) {
+            InputStream is = new FileInputStream(file)
+            if (ftp.storeFile(file.name, is)) {
+                println(String.format("Uploading to dev repo [ SUCCESS ][ %s ]", file.name))
+            } else {
+                println(String.format("Uploading to dev repo [ FAILED ][ %s ]", file.name))
+            }
+            is.close()
+        } else {
+            println(String.format("Uploading to dev repo [ SKIPPED ][ %s ]", file.name))
+        }
+    }
+    ftp.disconnect()
+    println("Uploading to dev repo [ END ]")
+}
+
+assemble.doLast {
+    uploadJars()
+}
