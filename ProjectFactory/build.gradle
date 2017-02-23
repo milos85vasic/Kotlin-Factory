@@ -26,39 +26,40 @@ import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPReply
 
-apply from: 'credentials.gradle'
+apply from: 'credentials.gradle' // This file is git ignored. End user needs to create it's file containing credentials.
 
 ext.uploadJars = {
     println("Uploading to dev repo [ START ]")
     FTPClient ftp = new FTPClient()
     ftp.connect(ftpServer)
     if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
-        if (ftp.login(ftpUsername, ftpPassword)) {
-            ftp.setFileType(FTP.BINARY_FILE_TYPE);
+        ftp.login(ftpUsername, ftpPassword)
+        if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
+            ftp.changeToParentDirectory()
+            ftp.setFileType(FTP.BINARY_FILE_TYPE)
+            File dir = new File("${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build/libs")
+            File[] files = dir.listFiles()
+            for (File file : files) {
+                if (file.name.endsWith(".jar")) {
+                    FileInputStream is = new FileInputStream(file)
+                    BufferedInputStream buffIn = new BufferedInputStream(is)
+                    if (ftp.storeFile(file.name, buffIn)) {
+                        println(String.format("Uploading to dev repo [ SUCCESS ][ %s ]", file.name))
+                    } else {
+                        println(String.format("Uploading to dev repo [ FAILED ][ %s ]", file.name))
+                    }
+                    is.close()
+                } else {
+                    println(String.format("Uploading to dev repo [ SKIPPED ][ %s ]", file.name))
+                }
+            }
+            ftp.disconnect()
         } else {
             println("Couldn't login to ftp server.")
-            return
         }
     } else {
         println("Couldn't connect to ftp server.")
-        return
     }
-    File dir = new File("${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build/libs")
-    File[] files = dir.listFiles()
-    for (File file : files) {
-        if (file.name.endsWith(".jar")) {
-            InputStream is = new FileInputStream(file)
-            if (ftp.storeFile(file.name, is)) {
-                println(String.format("Uploading to dev repo [ SUCCESS ][ %s ]", file.name))
-            } else {
-                println(String.format("Uploading to dev repo [ FAILED ][ %s ]", file.name))
-            }
-            is.close()
-        } else {
-            println(String.format("Uploading to dev repo [ SKIPPED ][ %s ]", file.name))
-        }
-    }
-    ftp.disconnect()
     println("Uploading to dev repo [ END ]")
 }
 
