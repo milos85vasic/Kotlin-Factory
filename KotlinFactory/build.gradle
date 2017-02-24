@@ -8,7 +8,7 @@ repositories {
 
 dependencies {
     compile files("libs/Logger_V1.1.2.jar")
-    compile 'Project-Factory:ProjectFactory:1.0.0_Alpha_1'
+    compile "Project-Factory:ProjectFactory:1.0.0_Alpha_1"
 }
 
 mainClassName = "net.milosvasic.factory.kotlin.MainKt"
