@@ -11,10 +11,6 @@ buildscript {
     dependencies.classpath "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 }
 
-configure([project(':ProjectFactory'), project(':KotlinFactory')]) {
+configure([project(':KotlinFactory')]) {
     apply from: "../commons.gradle"
-}
-
-configure([project(':ProjectFactory')]) {
-    apply from: "../deployment.gradle"
 }

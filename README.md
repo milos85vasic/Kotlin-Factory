@@ -1,6 +1,7 @@
-# Kotlin Factory (with dependencies)
+# Kotlin Factory
 Simple wizard for creating Kotlin Gradle projects.
 
-Two main modules are available:
-- Project Factory abstractions
-- Kotlin Factory implementation
+## Usage
+```
+java -jar KotlinFactory.jat myProject --modules="MainModule, SecondModule, ThirdModule"
+```
