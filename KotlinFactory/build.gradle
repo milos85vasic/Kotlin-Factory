@@ -5,14 +5,15 @@ versionNumber = 1
 secondaryVersion = 0
 tertiaryVersion = 0
 
-//repositories {
-//    maven {
-//        url "http://repo.milosvasic.net/releases"
-//    }
-//}
+repositories {
+    maven {
+        url "http://repo.milosvasic.net/development"
+    }
+}
 
 dependencies {
-    compile project(':ProjectFactory')
+    compile files("libs/Logger_V1.1.2.jar")
+    compile 'Kotlin-Factory:ProjectFactory:1.0.0_Alpha_1'
 }
 
 mainClassName = "net.milosvasic.factory.kotlin.MainKt"
