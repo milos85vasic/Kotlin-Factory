@@ -14,7 +14,7 @@
     <groupId>net.milosvasic.factory</groupId>
     <artifactId>factory-parent</artifactId>
     <version>1.0.0_Alpha_1</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>Project Factory Parent</name>
     <description>Project Factory library</description>
