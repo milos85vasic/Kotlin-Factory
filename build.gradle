@@ -15,6 +15,6 @@ configure([project(':ProjectFactory'), project(':KotlinFactory')]) {
     apply from: "../commons.gradle"
 }
 
-configure([project(':ProjectFactory'), project(':KotlinFactory')]) {
+configure([project(':ProjectFactory')]) {
     apply from: "../deployment.gradle"
 }

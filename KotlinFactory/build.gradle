@@ -5,6 +5,11 @@ versionNumber = 1
 secondaryVersion = 0
 tertiaryVersion = 0
 
+//repositories {
+//    maven {
+//        url "http://repo.milosvasic.net/releases"
+//    }
+//}
 
 dependencies {
     compile project(':ProjectFactory')

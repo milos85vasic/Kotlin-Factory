@@ -15,6 +15,10 @@ import org.apache.commons.net.ftp.FTP
 import org.apache.commons.net.ftp.FTPClient
 import org.apache.commons.net.ftp.FTPReply
 
+//ext.initializeMavenRepo = {
+//    Runtime.runtime.exec("mvn install -DperformRelease=true -DcreateChecksum=true")
+//}
+
 ext.uploadJars = {
     println("Uploading to dev repo [ START ]")
     FTPClient ftp = new FTPClient()
@@ -56,5 +60,6 @@ ext.uploadJars = {
 }
 
 assemble.doLast {
+//    initializeMavenRepo()
     uploadJars()
 }
