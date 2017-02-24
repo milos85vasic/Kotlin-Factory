@@ -18,9 +18,11 @@ import org.apache.commons.net.ftp.FTPReply
 
 ext.initializeMavenRepo = {
     try {
-        Process process = Runtime.runtime.exec("mvn install -DperformRelease=true -DcreateChecksum=true")
+        long start = System.currentTimeMillis()
+        println("Maven repository [ GENERATING ]")
+        Process process = Runtime.runtime.exec("mvn clean install -DperformRelease=true -DcreateChecksum=true")
         process.waitFor()
-        println("Maven repository [ GENERATED ]")
+        println(String.format("Maven repository [ GENERATED ][ %d millis ]", System.currentTimeMillis() - start))
     } catch (Exception e) {
         println(String.format("Maven repository [ NOT GENERATED ][ %s ]", e))
     }
@@ -41,22 +43,11 @@ ext.uploadJars = {
             if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
                 ftp.changeToParentDirectory()
                 ftp.setFileType(FTP.BINARY_FILE_TYPE)
+
                 File dir = new File("${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build/libs")
                 File[] files = dir.listFiles()
-                for (File file : files) {
-                    if (file.name.endsWith(".jar")) {
-                        FileInputStream is = new FileInputStream(file)
-                        BufferedInputStream buffIn = new BufferedInputStream(is)
-                        if (ftp.storeFile(file.name, buffIn)) {
-                            println(String.format("Maven repository [ UPLOADING ][ SUCCESS ][ %s ]", file.name))
-                        } else {
-                            println(String.format("Maven repository [ UPLOADING ][ FAILED ][ %s ]", file.name))
-                        }
-                        is.close()
-                    } else {
-                        println(String.format("Maven repository [ UPLOADING ][ SKIPPED ][ %s ]", file.name))
-                    }
-                }
+
+                uploadFiles(files, ftp)
             } else {
                 println("Maven repository [ UPLOADING ][ Couldn't enter local passive mode. ]")
             }
@@ -68,6 +59,23 @@ ext.uploadJars = {
         println("Maven repository [ UPLOADING ][ Couldn't connect to ftp server. ]")
     }
     println("Maven repository [ UPLOADING ][ END ]")
+}
+
+private void uploadFiles(File[] files, FTPClient ftp) {
+    for (File file : files) {
+        if (file.name.endsWith(".jar")) {
+            FileInputStream is = new FileInputStream(file)
+            BufferedInputStream buffIn = new BufferedInputStream(is)
+            if (ftp.storeFile(file.name, buffIn)) {
+                println(String.format("Maven repository [ UPLOADING ][ %s ]", file.name))
+            } else {
+                println(String.format("Maven repository [ UPLOADING ][ FAILED: %s ]", file.name))
+            }
+            is.close()
+        } else {
+            println(String.format("Maven repository [ UPLOADING ][ SKIPPED: %s ]", file.name))
+        }
+    }
 }
 
 assemble.doLast {
