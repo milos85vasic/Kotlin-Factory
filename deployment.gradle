@@ -2,83 +2,21 @@ apply plugin: "java"
 apply plugin: "kotlin"
 apply plugin: "maven"
 
-apply from: '../credentials.gradle' // This file is git ignored. End user needs to create it's file containing credentials.
-
-buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-    dependencies.classpath 'commons-net:commons-net:3.3'
+configurations {
+    deployerJars
 }
 
-import org.apache.commons.net.ftp.FTP
-import org.apache.commons.net.ftp.FTPClient
-import org.apache.commons.net.ftp.FTPReply
-
-ext.initializeMavenRepo = {
-    try {
-        long start = System.currentTimeMillis()
-        println("Maven repository [ GENERATING ]")
-        Process process = Runtime.runtime.exec("mvn clean install -DperformRelease=true -DcreateChecksum=true")
-        process.waitFor()
-        println(String.format("Maven repository [ GENERATED ][ %d millis ]", System.currentTimeMillis() - start))
-    } catch (Exception e) {
-        println(String.format("Maven repository [ NOT GENERATED ][ %s ]", e))
-    }
+dependencies {
+    deployerJars "org.apache.maven.wagon:wagon-ftp:2.2"
 }
 
-ext.uploadJars = {
-    println("Maven repository [ UPLOADING ][ START ]")
-    FTPClient ftp = new FTPClient()
-    try {
-        ftp.connect(ftpServer)
-    } catch (Exception e) {
-        println(String.format("Error connecting [ %s ][ %s ]", ftpServer, e))
-    }
-    if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
-        ftp.login(ftpUsername, ftpPassword)
-        if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
-            ftp.enterLocalPassiveMode()
-            if (FTPReply.isPositiveCompletion(ftp.getReplyCode())) {
-                ftp.changeToParentDirectory()
-                ftp.setFileType(FTP.BINARY_FILE_TYPE)
-
-                File dir = new File("${System.getProperty("user.dir")}${File.separator}${project.name}${File.separator}build/libs")
-                File[] files = dir.listFiles()
-
-                uploadFiles(files, ftp)
-            } else {
-                println("Maven repository [ UPLOADING ][ Couldn't enter local passive mode. ]")
-            }
-            ftp.disconnect()
-        } else {
-            println("Maven repository [ UPLOADING ][ Couldn't login to ftp server. ]")
-        }
-    } else {
-        println("Maven repository [ UPLOADING ][ Couldn't connect to ftp server. ]")
-    }
-    println("Maven repository [ UPLOADING ][ END ]")
-}
-
-private void uploadFiles(File[] files, FTPClient ftp) {
-    for (File file : files) {
-        if (file.name.endsWith(".jar")) {
-            FileInputStream is = new FileInputStream(file)
-            BufferedInputStream buffIn = new BufferedInputStream(is)
-            if (ftp.storeFile(file.name, buffIn)) {
-                println(String.format("Maven repository [ UPLOADING ][ %s ]", file.name))
-            } else {
-                println(String.format("Maven repository [ UPLOADING ][ FAILED: %s ]", file.name))
-            }
-            is.close()
-        } else {
-            println(String.format("Maven repository [ UPLOADING ][ SKIPPED: %s ]", file.name))
+uploadArchives {
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: "ftp://repo.milosvasic.net") {
+            authentication(userName: "devrepo@milosvasic.net", password: "*3tcf___%SP_wz(!")
         }
     }
 }
 
-assemble.doLast {
-    initializeMavenRepo()
-    uploadJars()
-}
+assemble.finalizedBy(uploadArchives)
