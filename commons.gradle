@@ -1,7 +1,7 @@
 apply plugin: "java"
 apply plugin: "kotlin"
 
-ext.alpha = 1
+ext.alpha = 0
 ext.beta = 0
 ext.versionNumber = 1
 ext.secondaryVersion = 0
