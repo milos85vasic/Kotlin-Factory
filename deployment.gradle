@@ -24,7 +24,6 @@ dependencies {
 }
 
 uploadArchives {
-    println("Uploading to [ $destination ]")
     repositories.mavenDeployer {
         configuration = configurations.deployerJars
         repository(url: "ftp://$ftpServer") {
