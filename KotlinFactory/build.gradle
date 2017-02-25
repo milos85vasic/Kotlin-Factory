@@ -30,7 +30,7 @@ final secondaryVersion = 0
 final tertiaryVersion = 0
 final versionPackage = "net.milosvasic.factory.kotlin"
 
-generateSources(
+setupProject(
         alpha,
         beta,
         versionNumber,
