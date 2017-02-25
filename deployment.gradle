@@ -14,7 +14,6 @@ if (destination != null && destination.length() > 0) {
     apply from: "../credentials.gradle"
 }
 
-
 configurations {
     deployerJars
 }
@@ -24,6 +23,7 @@ dependencies {
 }
 
 uploadArchives {
+    println("Uploading to [ $destination ]")
     repositories.mavenDeployer {
         configuration = configurations.deployerJars
         repository(url: "ftp://$ftpServer") {
