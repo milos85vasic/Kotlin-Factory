@@ -1,14 +1,10 @@
 apply plugin: "application"
 
-repositories {
-    maven {
-        url "http://repo.milosvasic.net/development"
-    }
-}
+registerRepo("http://repo.milosvasic.net/development")
 
 dependencies {
     compile files("libs/Logger_V1.1.2.jar")
-    compile "Project-Factory:ProjectFactory:1.0.0_Alpha_1_DEV_+"
+    compileRepoDep("Project-Factory", "ProjectFactory", "1.0.0_Alpha_1_DEV_+")
 }
 
 mainClassName = "net.milosvasic.factory.kotlin.MainKt"
