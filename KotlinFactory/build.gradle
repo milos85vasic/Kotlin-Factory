@@ -3,7 +3,7 @@ apply plugin: "application"
 registerRepo("http://repo.milosvasic.net/development")
 
 dependencies {
-    compile files("libs/Logger_V1.1.2.jar")
+    compileRepoDep("net.milosvasic.logger", "Logger", "1.2.0_DEV_+")
     compileRepoDep("net.milosvasic.factory", "ProjectFactory", "1.0.0_Alpha_1_DEV_+")
 }
 
