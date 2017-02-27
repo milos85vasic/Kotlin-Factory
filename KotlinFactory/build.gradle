@@ -4,7 +4,7 @@ registerRepo("http://repo.milosvasic.net/development")
 
 dependencies {
     compile files("libs/Logger_V1.1.2.jar")
-    compileRepoDep("Project-Factory", "ProjectFactory", "1.0.0_Alpha_1_DEV_+")
+    compileRepoDep("net.milosvasic.factory", "ProjectFactory", "1.0.0_Alpha_1_DEV_+")
 }
 
 mainClassName = "net.milosvasic.factory.kotlin.MainKt"
@@ -34,3 +34,5 @@ setupProject(
         tertiaryVersion,
         versionPackage
 )
+
+setupDeployment(project.version, versionPackage)
