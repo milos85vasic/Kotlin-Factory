@@ -1,3 +1,9 @@
+apply from: "../build.gradle"
+apply from: "../commons.gradle"
+apply from: "../compile.gradle"
+apply from: "../deployment.gradle"
+apply from: "../application.gradle"
+
 registerRepo("http://repo.milosvasic.net/releases")
 registerRepo("http://repo.milosvasic.net/development")
 
@@ -22,5 +28,6 @@ setupProject(
         versionPackage
 )
 
-setupApplication(versionPackage)
 setupDeployment(project.version, versionPackage)
+
+setupApplication(versionPackage)
