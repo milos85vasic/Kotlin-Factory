@@ -9,12 +9,10 @@ import net.milosvasic.factory.utils.Text
 import net.milosvasic.logger.ConsoleLogger
 import java.io.File
 
-private class KotlinFactory
-
 fun main(args: Array<String>) {
 
     val logger = ConsoleLogger()
-    val tag = KotlinFactory::class
+    val tag = "kotlin factory"
     val factory = KotlinProjectFactory()
     val name = Text.splitCamelCase(BuildConfig.NAME)
     val version = BuildConfig.VERSION.replace("_", " ")
