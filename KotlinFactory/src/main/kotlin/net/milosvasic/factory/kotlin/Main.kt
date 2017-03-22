@@ -20,13 +20,18 @@ fun main(args: Array<String>) {
     }
 
     val jsonPath = File(args[0])
-    if(!jsonPath.exists()){
+    if (!jsonPath.exists()) {
         logger.e(tag, Messages.FILE_DOES_NOT_EXIST(jsonPath))
         return
     }
 
-    val result = KotlinProjectFactory(Labels.WORKING_FOLDER_NAME).create(jsonPath)
-    if(result){
+    var result = false
+    try {
+        result = KotlinProjectFactory(Labels.WORKING_FOLDER_NAME).create(jsonPath)
+    } catch (e: Exception) {
+        logger.e(tag, "${Labels.ERROR.toUpperCase()} [ ${e.message} ]")
+    }
+    if (result) {
         logger.i(tag, Messages.PROJECT_CREATION_RESULT(result))
     } else {
         logger.e(tag, Messages.PROJECT_CREATION_RESULT(result))
