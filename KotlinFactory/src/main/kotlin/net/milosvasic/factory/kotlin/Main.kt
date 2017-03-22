@@ -1,7 +1,7 @@
 package net.milosvasic.factory.kotlin
 
-import net.milosvasic.factory.kotlin.content.Labels
 import net.milosvasic.factory.kotlin.content.Messages
+import net.milosvasic.factory.kotlin.content.Labels
 import net.milosvasic.factory.utils.Text
 import net.milosvasic.logger.SimpleLogger
 import java.io.File
@@ -36,16 +36,5 @@ fun main(args: Array<String>) {
     } else {
         logger.e(tag, Messages.PROJECT_CREATION_RESULT(result))
     }
-
-//    val project = Project(projectName)
-//    for (moduleName in moduleNames) {
-//        project.modules.add(Module(moduleName))
-//    }
-//    try {
-//        factory.create(project, getHome())
-//        logger.c(tag, Messages.PROJECT_CREATED)
-//    } catch (e: Exception) {
-//        logger.e(tag, "${e.message}")
-//    }
 
 }
