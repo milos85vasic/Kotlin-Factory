@@ -1,13 +1,14 @@
 package net.milosvasic.factory.kotlin
 
+import net.milosvasic.factory.kotlin.content.Labels
 import net.milosvasic.factory.kotlin.content.Messages
 import net.milosvasic.factory.utils.Text
-import net.milosvasic.logger.ConsoleLogger
+import net.milosvasic.logger.SimpleLogger
 import java.io.File
 
 fun main(args: Array<String>) {
 
-    val logger = ConsoleLogger()
+    val logger = SimpleLogger()
     val tag = "kotlin factory"
     val name = Text.splitCamelCase(BuildConfig.NAME)
     val version = BuildConfig.VERSION.replace("_", " ")
@@ -24,7 +25,12 @@ fun main(args: Array<String>) {
         return
     }
 
-    val factory = KotlinProjectFactory()
+    val result = KotlinProjectFactory(Labels.WORKING_FOLDER_NAME).create(jsonPath)
+    if(result){
+        logger.i(tag, Messages.PROJECT_CREATION_RESULT(result))
+    } else {
+        logger.e(tag, Messages.PROJECT_CREATION_RESULT(result))
+    }
 
 //    val project = Project(projectName)
 //    for (moduleName in moduleNames) {
