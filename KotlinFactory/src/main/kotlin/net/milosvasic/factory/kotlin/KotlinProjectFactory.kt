@@ -10,20 +10,23 @@ import java.io.File
 class KotlinProjectFactory(override val workingFolderName: String) : ProjectFactory() {
 
     override fun getClasspath(project: Project): Classpath {
-        val classpath = Classpath()
-        val gradlePlugin = Dependency(
-                "org.jetbrains.kotlin",
-                "kotlin-gradle-plugin",
-                project.language.version
-        )
-        val kotlinReflect = Dependency(
-                "org.jetbrains.kotlin",
-                "kotlin-reflect",
-                project.language.version
-        )
-        classpath.dependencies.add(gradlePlugin)
-        classpath.dependencies.add(kotlinReflect)
-        return classpath
+        if(project.language != null) {
+            val classpath = Classpath()
+            val version : String = project.language?.version as String
+            val gradlePlugin = Dependency(
+                    "org.jetbrains.kotlin",
+                    "kotlin-gradle-plugin",
+                    version
+            )
+            val kotlinReflect = Dependency(
+                    "org.jetbrains.kotlin",
+                    "kotlin-reflect",
+                    version
+            )
+            classpath.dependencies.add(gradlePlugin)
+            classpath.dependencies.add(kotlinReflect)
+            return classpath
+        } else throw IllegalStateException("No language specified.")
     }
 
     override fun getModuleNonJavaDirectories(module: Module, root: File): List<File> {
