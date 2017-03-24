@@ -14,12 +14,12 @@ class KotlinProjectFactory(override val workingFolderName: String) : ProjectFact
         val gradlePlugin = Dependency(
                 "org.jetbrains.kotlin",
                 "kotlin-gradle-plugin",
-                project.languageVersion
+                project.language.version
         )
         val kotlinReflect = Dependency(
                 "org.jetbrains.kotlin",
                 "kotlin-reflect",
-                project.languageVersion
+                project.language.version
         )
         classpath.dependencies.add(gradlePlugin)
         classpath.dependencies.add(kotlinReflect)
