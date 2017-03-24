@@ -30,9 +30,9 @@ fun main(args: Array<String>) {
         result = KotlinProjectFactory(Labels.WORKING_FOLDER_NAME).create(jsonPath)
     } catch (e: Exception) {
         logger.e(tag, "${Labels.ERROR.toUpperCase()} [ ${e.message} ]")
-        if (BuildConfig.VARIANT == "DEV") {
-            e.printStackTrace()
-        }
+//        if (BuildConfig.VARIANT == "DEV") {
+//            e.printStackTrace()
+//        }
     }
     if (result) {
         logger.i(tag, Messages.PROJECT_CREATION_RESULT(result))
