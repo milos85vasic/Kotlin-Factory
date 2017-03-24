@@ -1,10 +1,30 @@
 package net.milosvasic.factory.kotlin
 
+import net.milosvasic.factory.dependency.Classpath
+import net.milosvasic.factory.dependency.Dependency
 import net.milosvasic.factory.module.Module
+import net.milosvasic.factory.project.Project
 import net.milosvasic.factory.project.ProjectFactory
 import java.io.File
 
 class KotlinProjectFactory(override val workingFolderName: String) : ProjectFactory() {
+
+    override fun getClasspath(project: Project): Classpath {
+        val classpath = Classpath()
+        val gradlePlugin = Dependency(
+                "org.jetbrains.kotlin",
+                "kotlin-gradle-plugin",
+                project.languageVersion
+        )
+        val kotlinReflect = Dependency(
+                "org.jetbrains.kotlin",
+                "kotlin-reflect",
+                project.languageVersion
+        )
+        classpath.dependencies.add(gradlePlugin)
+        classpath.dependencies.add(kotlinReflect)
+        return classpath
+    }
 
     override fun getModuleNonJavaDirectories(module: Module, root: File): List<File> {
         val name = module.name.replace(" ", "_")
