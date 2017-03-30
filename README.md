@@ -116,3 +116,11 @@ Configuration passed as json must be configured according the following template
   ]
 }
 ```
+To support git repository add the following into project object with proper data:
+```json
+{
+  "git": {
+    "cloneUrl": "https://user@github.com/some_user/example_repo.git"
+  }
+}
+```
