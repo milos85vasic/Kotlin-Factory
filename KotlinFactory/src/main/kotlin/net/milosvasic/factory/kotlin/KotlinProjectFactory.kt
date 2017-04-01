@@ -40,13 +40,13 @@ class KotlinProjectFactory(override val workingFolderName: String) : ProjectFact
 
         var packageDirectoryKotlin = mainKotlin.absolutePath
         var packageDirectoryTestKotlin = testKotlin.absolutePath
-        module.pPackage.split(".").forEach {
+        module.group.split(".").forEach {
             packageElement ->
             packageDirectoryKotlin += File.separator + packageElement
             packageDirectoryTestKotlin += File.separator + packageElement
         }
-        packageDirectoryKotlin += File.separator + module.group
-        packageDirectoryTestKotlin += File.separator + module.group
+        packageDirectoryKotlin += File.separator + module.pPackage
+        packageDirectoryTestKotlin += File.separator + module.pPackage
         directories.add(File(packageDirectoryKotlin))
         directories.add(File(packageDirectoryTestKotlin))
 

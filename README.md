@@ -124,3 +124,5 @@ To support git repository add the following into project object with proper data
   }
 }
 ```
+NOTE: Git functionality is intended to be used with plain repo that waits for it's first initial project commit.
+If repo is not empty, since we will clone it, it may happen some conflicts to occur. 

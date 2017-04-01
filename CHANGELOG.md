@@ -5,6 +5,7 @@
 # Version 1.0.0 Alpha 4
 
 - Updated version of [Project Factory](https://github.com/milos85vasic/Project-Factory) component
+- Bug fix: Messing up project group and package
 
 # Version 1.0.0 Alpha 3
 
