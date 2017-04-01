@@ -4,7 +4,7 @@
 
 # Version 1.0.0 Alpha 4
 
-- Updated version of [Project Factory]("https://github.com/milos85vasic/Project-Factory") component
+- Updated version of [Project Factory](https://github.com/milos85vasic/Project-Factory) component
 
 # Version 1.0.0 Alpha 3
 
